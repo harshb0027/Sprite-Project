@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <div id="root"></div>
+        
+        
+        
+        <script type="text/babel">
+            // Obtain the root
+            const rootElement = document.getElementById('root')
+            // Create a ES6 class component
+            class ContactList extends React.Component {
+                // Use the render function to return JSX component
+                constructor(props) {
+                    super(props);
+                    this.state = {count: "", contactsstring: "", contacts: []};
+                }
+                
+                callAPI() {
+                    //insert code
+                    fetch("http://192.168.0.10:8080/spriteharsh/resources/com.mycompany.spriteharsh.sprite",{
+                    headers: {'Accept': 'application/json'}})
+                    .then(res => res.json())
+                    .then(resjson => this.setState({contacts: resjson}));
+                }
+                
+                
+                componentDidMount() {
+                    this.callAPI();
+                }
+
+                render() {
+                    const valuesArray = this.state.contacts;
+                    return (<div className="contact-list">
+                            <h1>Sprite List {this.props.name}</h1>
+                                count: {valuesArray.length}<ul>
+                                    {valuesArray.map((item, key) => {
+                                    return <li key={key}>{item.xvalue}, {item.yvalue}</li>
+                                    })}
+                                </ul>
+                            </div>
+                            );
+                }
+            }
+            // Create a function to wrap up your component
+            function App() {
+                return(
+                        <div>
+                        <ContactList name="Using React!"/>
+                        </div>
+                        )
+            }
+            // Use the ReactDOM.render to show your component on the browser
+            ReactDOM.render(
+                    <App />,
+                    rootElement
+                    )
+        </script>
+    </body>
+</html>

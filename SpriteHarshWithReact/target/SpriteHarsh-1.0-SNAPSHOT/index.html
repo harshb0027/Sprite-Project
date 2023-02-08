@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Play with React</title>
+        <script type="application/javascript" src="https://unpkg.com/react@16.0.0/umd/react.production.min.js"></script>
+        <script type="application/javascript" src="https://unpkg.com/react-dom@16.0.0/umd/react-dom.production.min.js"></script>
+        <script type="application/javascript" src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
+    </head>
+    <body>
+        <div id="root"></div>
+        
+        
+        
+        <script type="text/babel">
+            // Obtain the root
+            const rootElement = document.getElementById('root')
+            // Create a ES6 class component
+            class SpriteList extends React.Component {
+                // Use the render function to return JSX component
+                constructor(props) {
+                    super(props);
+                    this.state = {count: "", contactsstring: "", sprites: []};
+                }
+                
+                callAPI() {
+                    //insert code
+                    fetch("http://192.168.0.10:8080/SpriteHarsh/resources/cst8218.bans0027.entity.sprite",{
+                    headers: {'Accept': 'application/json'}})
+                    .then(res => res.json())
+                    .then(resjson => this.setState({sprites: resjson}));
+                }
+                
+                
+                componentDidMount() {
+                    this.callAPI();
+                }
+
+                render() {
+                    const valuesArray = this.state.sprites;
+                             return(<div className="sprite-list">
+                                      <h1>Sprite List {this.props.name}</h1>
+                                      count: {valuesArray.length}
+                                     <table border="1">
+                                        <tr>
+                                        <th>Sprite Id</th>
+                                        <th>Position
+                                        <th>X-Value</th>
+                                        <th>Y-value</th></th>
+                                        <th>Speed
+                                        <th>X-Speed</th>
+                                        <th>Y-Speed</th>
+                                        </th>
+                                        </tr>
+                                        {valuesArray.map((item,key) => {
+                                            return <tr key={key}>
+                                                <td>{item.id}</td>
+                                                <td>
+                                                <td>{item.XValue}</td>
+                                                <td>{item.YValue}</td>
+                                                        </td>
+                                                        <td>
+                                                        <td>{item.XSpeed}</td>
+                                                        <td>{item.YSpeed}</td>
+                                                                </td>
+                                            </tr>
+                                        })}
+                                    </table> 
+                                     </div>);
+                }
+            }
+            // Create a function to wrap up your component
+            function App() {
+                return(
+                        <div>
+                        <SpriteList name="Using React!"/>
+                        </div>
+                        )
+            }
+            // Use the ReactDOM.render to show your component on the browser
+            ReactDOM.render(
+                    <App />,
+                    rootElement
+                    )
+        </script>
+    </body>
+</html>
+
+
+
+
+
